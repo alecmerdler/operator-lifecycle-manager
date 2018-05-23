@@ -52,7 +52,7 @@ func NewOperator(kubeconfigPath string, wakeupInterval time.Duration, operatorNa
 		watchedNamespaces = []string{metav1.NamespaceAll}
 	}
 
-	// Create a new client for ALM types (CRs)
+	// Create a new client for OLM types (CRs)
 	crClient, err := client.NewClient(kubeconfigPath)
 	if err != nil {
 		return nil, err

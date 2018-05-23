@@ -14,10 +14,10 @@ const (
 )
 
 type CatalogSourceSpec struct {
-	Name       string   `json:"name"`
-	SourceType string   `json:"sourceType"`
-	ConfigMap  string   `json:"configMap,omitempty"`
-	Secrets    []string `json:"secrets,omitempty"`
+	Name       string     `json:"name"`
+	SourceType SourceType `json:"sourceType"`
+	ConfigMap  string     `json:"configMap,omitempty"`
+	Secrets    []string   `json:"secrets,omitempty"`
 
 	// Metadata
 	DisplayName string `json:"displayName,omitempty"`
@@ -26,14 +26,22 @@ type CatalogSourceSpec struct {
 	Icon        Icon   `json:"icon,omitempty"`
 }
 
+type SourceType string
+
+const (
+	InternalSourceType SourceType = "internal"
+)
+
 type Icon struct {
 	MediaType string `json:"mediatype"`
 	Data      string `json:"base64data"`
 }
+
 type CatalogSourceStatus struct {
 	ConfigMapResource *ConfigMapResourceReference `json:"configMapReeference,omitempty"`
 	LastSync          metav1.Time                 `json:"lastSync,omitempty"`
 }
+
 type ConfigMapResourceReference struct {
 	Name      string `json:"name"`
 	Namespace string `json:"namespace"`
