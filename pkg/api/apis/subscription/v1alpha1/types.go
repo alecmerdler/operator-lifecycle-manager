@@ -44,7 +44,8 @@ type Subscription struct {
 }
 
 type SubscriptionStatus struct {
-	CurrentCSV string                `json:"installedCSV,omitempty"`
+	// FIXME(alecmerdler): This field is too ambiguous about the state of the CSV
+	CurrentCSV string                `json:"currentCSV,omitempty"`
 	Install    *InstallPlanReference `json:"installplan,omitempty"`
 
 	State       SubscriptionState `json:"state,omitempty"`

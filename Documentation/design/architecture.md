@@ -117,9 +117,9 @@ None --> UpgradeAvailable --> UpgradePending --> AtLatestKnown -+
 | Phase            | Description                                                                                                   |
 |------------------|---------------------------------------------------------------------------------------------------------------|
 | None             | initial phase, once seen by the Operator, it is immediately transitioned to `UpgradeAvailable`                |
-| UpgradeAvailable | catalog contains a CSV which replaces the `status.installedCSV`, but no `InstallPlan-v1` has been created yet |
+| UpgradeAvailable | catalog contains a CSV which replaces the `status.currentCSV`, but no `InstallPlan-v1` has been created yet |
 | UpgradePending   | `InstallPlan-v1` has been created (referenced in `status.installplan`) to install a new CSV                   |
-| AtLatestKnown    | `status.installedCSV` matches the latest available CSV in catalog                                             |
+| AtLatestKnown    | `status.currentCSV` matches the latest available CSV in catalog                                             |
 
 
 ## Catalog (Registry) Design
