@@ -1,0 +1,159 @@
+#! validate-crd: ./deploy/chart/templates/03-clusterserviceversion.crd.yaml
+#! parse-kind: ClusterServiceVersion
+apiVersion: operators.coreos.com/v1alpha1
+kind: ClusterServiceVersion
+metadata:
+  name: kubevirt.v0.6.3
+  namespace: placeholder
+  annotations:
+    tectonic-visibility: ocs
+    alm-examples: '[]'
+spec:
+  displayName: etcd
+  description: Kubernetes Virtualization Operator with API and runtime in order to define and manage virtual machines.
+  keywords: ['vms', 'virtualization', 'virtual machines', 'open source']
+  version: 0.6.3
+  maturity: alpha
+  maintainers:
+  - name: CoreOS, Inc
+    email: support@coreos.com
+  provider:
+    name: CoreOS, Inc
+  labels:
+    alm-owner-kubevirt: kubevirt
+    operated-by: kubevirt
+  selector:
+    matchLabels:
+      alm-owner-kubevirt: kubevirt
+      operated-by: kubevirt
+  links:
+  - name: KubeVirt Source Code
+    url: https://github.com/kubevirt/kubevirt
+  icon:
+  - base64data: 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
+    mediatype: image/png
+  install:
+    strategy: deployment
+    spec:
+      permissions:
+      - serviceAccountName: etcd-operator
+        rules:
+        - apiGroups:
+          - etcd.database.coreos.com
+          resources:
+          - etcdclusters
+          - etcdbackups
+          - etcdrestores
+          verbs:
+          - "*"
+        - apiGroups:
+          - ""
+          resources:
+          - pods
+          - services
+          - endpoints
+          - persistentvolumeclaims
+          - events
+          verbs:
+          - "*"
+        - apiGroups:
+          - apps
+          resources:
+          - deployments
+          verbs:
+          - "*"
+        - apiGroups:
+          - ""
+          resources:
+          - secrets
+          verbs:
+          - get
+      deployments:
+      - name: virt-api
+        spec:
+          replicas: 2
+          selector:
+            matchLabels:
+              name: virt-api-alm-owned
+          template:
+            metadata:
+              name: virt-api-alm-owned
+              labels:
+                kubevirt.io: virt-api
+                name: virt-api-alm-owned
+            spec:
+              serviceAccountName: kubevirt-controller
+              containers:
+                - name: virt-api
+                  image: docker.io/kubevirt/virt-api:v0.6.3
+                  imagePullPolicy: IfNotPresent
+                  command:
+                      - "virt-api"
+                      - "--port"
+                      - "8443"
+                      - "--subresources-only"
+                  ports:
+                    - containerPort: 8443
+                      name: "virt-api"
+                      protocol: "TCP"
+                  readinessProbe:
+                    tcpSocket:
+                      port: 8443
+                    initialDelaySeconds: 5
+                    periodSeconds: 10
+              securityContext:
+                runAsNonRoot: true
+      - name: virt-controller
+        spec:
+          replicas: 2
+          selector:
+            matchLabels:
+              name: kubevirt-alm-owned
+          template:
+            metadata:
+              name: kubevirt-alm-owned
+              labels:
+                kubevirt.io: virt-controller
+                name: kubevirt-alm-owned
+            spec:
+              serviceAccountName: kubevirt-controller
+              containers:
+                - name: virt-controller
+                  image: docker.io/kubevirt/virt-controller:v0.6.3
+                  imagePullPolicy: IfNotPresent
+                  command:
+                      - "virt-controller"
+                      - "--launcher-image"
+                      - "docker.io/kubevirt/virt-launcher:v0.6.3"
+                      - "--port"
+                      - "8182"
+                  ports:
+                    - containerPort: 8182
+                      name: "virt-controller"
+                      protocol: "TCP"
+                  livenessProbe:
+                    failureThreshold: 8
+                    httpGet:
+                      port: 8182
+                      path: /healthz
+                    initialDelaySeconds: 15
+                    timeoutSeconds: 10
+                  readinessProbe:
+                    httpGet:
+                      port: 8182
+                      path: /leader
+                    initialDelaySeconds: 15
+                    timeoutSeconds: 10
+                  securityContext:
+                    runAsNonRoot: true
+  customresourcedefinitions:
+    owned:
+    - name: 
+      version: 
+      kind: 
+      displayName: 
+      description: 
+      specDescriptors:
+
+      statusDescriptors:
+       
