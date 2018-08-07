@@ -1,0 +1,156 @@
+apiVersion: operators.coreos.com/v1alpha1
+kind: ClusterServiceVersion
+metadata:
+  name: couchbase-operator.v0.8.0
+  namespace: placeholder
+  annotations:
+    alm-examples: '[{"apiVersion":"couchbase.database.couchbase.com/v1beta1","kind":"CouchbaseCluster","metadata":{"name":"cb-example","namespace":"default"},"spec":{"baseImage":"couchbase/server","version":"enterprise-5.0.1","authSecret":"cb-example-auth","exposeAdminConsole":true,"cluster":{"dataServiceMemoryQuota":256,"indexServiceMemoryQuota":256,"searchServiceMemoryQuota":256,"indexStorageSetting":"memory_optimized","autoFailoverTimeout":30},"buckets":[{"name":"default","type":"couchbase","memoryQuota":128,"replicas":1,"ioPriority":"high","evictionPolicy":"fullEviction","conflictResolution":"seqno","enableFlush":true,"enableIndexReplica":false}],"servers":[{"size":3,"name":"all_services","services":["data","index","query","search"],"dataPath":"/opt/couchbase/var/lib/couchbase/data","indexPath":"/opt/couchbase/var/lib/couchbase/data"}]}}]'
+spec:
+  install: 
+    strategy: deployment
+    spec:
+      permissions:
+      - serviceAccountName: couchbase-operator
+        rules:
+        - apiGroups:
+          - couchbase.database.couchbase.com
+          resources:
+          - couchbaseclusters
+          verbs:
+          - "*"
+        - apiGroups:
+          - ""
+          resources:
+          - events
+          - pods
+          - secrets
+          - services
+          - endpoints
+          verbs:
+          - "*"
+        - apiGroups:
+          - "apps"
+          resources:
+          - "deployments"
+          verbs:
+          - "*"
+        - apiGroups:
+          - ""
+          resources:
+          - secrets
+          verbs:
+          - get
+      deployments: 
+      - name: couchbase-operator
+        spec:
+          replicas: 1
+          selector:
+            matchLabels:
+              name: couchbase-operator
+          template:
+            metadata:
+              labels:
+                name: couchbase-operator
+            spec:
+              serviceAccountName: couchbase-operator
+              containers:
+              - name: couchbase-operator
+                image: mikewied/cbop:2018-4-19_15_37
+                command:
+                - couchbase-operator
+                env:
+                - name: MY_POD_NAMESPACE
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.namespace
+                - name: MY_POD_NAME
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.name
+                ports:
+                  - name: readiness-port
+                    containerPort: 8080
+                readinessProbe:
+                  httpGet:
+                    path: /readyz
+                    port: readiness-port
+                  initialDelaySeconds: 3
+                  periodSeconds: 3
+                  failureThreshold: 19
+  customresourcedefinitions:
+    owned:
+      - description: Manages Couchbase clusters
+        displayName: Couchbase
+        kind: CouchbaseCluster
+        name: couchbaseclusters.couchbase.database.couchbase.com
+        version: v1beta1
+        resources:
+          - kind: Service
+            version: v1
+          - kind: Pod
+            version: v1
+        specDescriptors:
+          - description: The desired number of member Pods for the Couchbase cluster.
+            displayName: Size
+            path: servers[0].size
+            x-descriptors:
+              - 'urn:alm:descriptor:com.tectonic.ui:podCount'
+          - description: The name of the secret object that stores the Couchbase credentials.
+            displayName: Auth Secret
+            path: authSecret
+            x-descriptors: 
+              - 'urn:alm:descriptor:io.kubernetes:Secret'
+        statusDescriptors:
+          - description: The status of each of the member Pods for the Couchbase cluster.
+            displayName: Member Status
+            path: members
+            x-descriptors:
+              - 'urn:alm:descriptor:com.tectonic.ui:podStatuses'
+          - description: The current status of the Couchbase cluster.
+            displayName: Status
+            path: phase
+            x-descriptors:
+              - 'urn:alm:descriptor:io.kubernetes.phase'
+          - description: Explanation for the current status of the cluster.
+            displayName: Status Details
+            path: reason
+            x-descriptors:
+              - 'urn:alm:descriptor:io.kubernetes.phase:reason'
+          - description: The current size of the Couchbase cluster.
+            displayName: Cluster Size
+            path: size
+          - description: The current version of Couchbase in use.
+            displayName: Version
+            path: currentVersion
+          - description: Conditions of the Couchbase cluster.
+            displayName: Conditions
+            path: conditions
+            x-descriptors:
+              - 'urn:alm:descriptor:io.kubernetes.conditions'
+  keywords:
+    - couchbase
+  displayName: Couchbase
+  provider:
+    name: Couchbase
+    url: www.couchbase.com
+  maturity: beta
+  version: 0.8.0
+  maintainers:
+    - email: support@couchbase.com
+      name: Couchbase
+  description: | 
+    Built on the most powerful NoSQL technology, Couchbase Server delivers unparalleled performance at scale, in any cloud. With features like memory-first architecture, geo-distributed deployments, and workload isolation, Couchbase Server excels at supporting mission-critical applications at scale while maintaining submillisecond latencies and 99.999% availability. Plus, with the most comprehensive SQL-compatible query language (N1QL), migrating from RDBMS to Couchbase Server is easy with ANSI joins.
+    
+    ### Features and Capabilities
+     - Full text search
+     - Active-active global replication
+     - Enterprise grade security
+  icon:
+    - base64data: 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
+      mediatype: image/png
+  links:
+    - name: Documentation
+      url: http://docs.couchbase.com/prerelease/couchbase-operator/beta/overview.html
+  labels:
+    alm-owner-enterprise-app: couchbase-operator
+    alm-status-descriptors: couchbase-operator.v0.8.0
