@@ -1,0 +1,187 @@
+#! validate-crd: ../../deploy/chart/templates/03-clusterserviceversion.crd.yaml
+#! parse-kind: ClusterServiceVersion
+apiVersion: operators.coreos.com/v1alpha1
+kind: ClusterServiceVersion
+metadata:
+  name: rookoperator.v0.7.1
+  namespace: placeholder
+  annotations:
+    tectonic-visibility: ocs
+    alm-examples: '[{"apiVersion":"rook.io/v1alpha1","kind":"Cluster","metadata":{"name":"rook"},"spec":{"dataDirHostPath":"/var/lib/rook","storage":{"useAllNodes":true,"useAllDevices":true,"storeConfig":{"storeType":"bluestore","databaseSizeMB":1024,"journalSizeMB":1024}}}}]'
+spec:
+  displayName: Rook
+  description: |
+    Rook is an open source orchestrator for distributed storage systems running in cloud native environments.
+
+    Rook turns distributed storage software into a self-managing, self-scaling, and self-healing storage services. It does this by automating deployment, bootstrapping, configuration, provisioning, scaling, upgrading, migration, disaster recovery, monitoring, and resource management. Rook uses the facilities provided by the underlying cloud-native container management, scheduling and orchestration platform to perform its duties.
+
+    Rook integrates deeply into cloud native environments leveraging extension points and providing a seamless experience for scheduling, lifecycle management, resource management, security, monitoring, and user experience.
+  keywords: ['storage', 'ceph', 'storage-cluster']
+  version: 0.7.1
+  maturity: alpha
+  maintainers:
+  - name: Cloud Native Computing Foundation
+    email: rook@cncf.com
+  provider:
+    name: CNCF
+  labels:
+    alm-owner-rook: rookoperator
+    operated-by: rookoperator
+  selector:
+    matchLabels:
+      alm-owner-rook: rookoperator
+      operated-by: rookoperator
+  links:
+  - name: Website
+    url: https://rook.io
+  - name: Rook Operator Source Code
+    url: https://github.com/rook/rook
+  icon:
+  - base64data: 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
+    mediatype: image/png
+  install:
+    strategy: deployment
+    spec:
+      permissions:
+      - serviceAccountName: rook-operator
+        rules:
+        - apiGroups:
+          - ""
+          resources:
+          - namespaces
+          - serviceaccounts
+          - secrets
+          - pods
+          - services
+          - nodes
+          - nodes/proxy
+          - configmaps
+          - events
+          - persistentvolumes
+          - persistentvolumeclaims
+          verbs:
+          - get
+          - list
+          - watch
+          - patch
+          - create
+          - update
+          - delete
+        - apiGroups:
+          - extensions
+          resources:
+          - deployments
+          - daemonsets
+          - replicasets
+          verbs:
+          - get
+          - list
+          - watch
+          - create
+          - update
+          - delete
+        - apiGroups:
+          - rbac.authorization.k8s.io
+          resources:
+          - clusterroles
+          - clusterrolebindings
+          - roles
+          - rolebindings
+          verbs:
+          - get
+          - list
+          - watch
+          - create
+          - update
+          - delete
+        - apiGroups:
+          - storage.k8s.io
+          resources:
+          - storageclasses
+          verbs:
+          - get
+          - list
+          - watch
+          - delete
+        - apiGroups:
+          - rook.io
+          resources:
+          - "*"
+          verbs:
+          - "*"
+      deployments:
+      - name: rook-operator
+        spec:
+          replicas: 1
+          selector:
+            matchLabels:
+              name: rook-operator-alm-owned
+          template:
+            metadata:
+              name: rook-operator-alm-owned
+              labels:
+                name: rook-operator-alm-owned
+            spec:
+              serviceAccountName: rook-operator
+              containers:
+              - name: rook-operator
+                image: rook/rook:master
+                args: ["operator"]
+                env:
+                # Rook Agent toleration. Will tolerate all taints with all keys.
+                # Choose between NoSchedule, PreferNoSchedule and NoExecute:
+                # - name: AGENT_TOLERATION
+                #  value: "NoSchedule"
+                # (Optional) Rook Agent toleration key. Set this to the key of the taint you want to tolerate
+                # - name: AGENT_TOLERATION_KEY
+                #  value: "<KeyOfTheTaintToTolerate>"
+                # Set the path where the Rook agent can find the flex volumes
+                # - name: FLEXVOLUME_DIR_PATH
+                #  value: "<PathToFlexVolumes>"
+                # The interval to check if every mon is in the quorum.
+                - name: ROOK_MON_HEALTHCHECK_INTERVAL
+                  value: "45s"
+                # The duration to wait before trying to failover or remove/replace the
+                # current mon with a new mon (useful for compensating flapping network).
+                - name: ROOK_MON_OUT_TIMEOUT
+                  value: "300s"
+                - name: NODE_NAME
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: spec.nodeName
+                - name: POD_NAME
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.name
+                - name: POD_NAMESPACE
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.namespace
+  customresourcedefinitions:
+    owned:
+      - name: clusters.rook.io
+        version: v1alpha1
+        kind: Cluster
+        displayName: Rook Cluster
+        description: Cluster of Rook nodes
+      - name: filesystems.rook.io
+        version: v1alpha1
+        kind: Filesystem
+        displayName: Filesystem
+        description: Rook filesystem
+      - name: objectstores.rook.io
+        version: v1alpha1
+        kind: ObjectStore
+        displayName: Object Store
+        description: Rook object store
+      - name: pools.rook.io
+        version: v1alpha1
+        kind: Pool
+        displayName: Pool
+        description: Rook pool
+      - name: volumeattachments.rook.io
+        version: v1alpha1
+        kind: VolumeAttachment
+        displayName: Volume Attachment
+        description: Rook volume attachment
+          
