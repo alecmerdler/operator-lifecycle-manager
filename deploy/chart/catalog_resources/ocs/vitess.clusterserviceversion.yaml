@@ -1,0 +1,188 @@
+#! validate-crd: ./deploy/chart/templates/03-clusterserviceversion.crd.yaml
+#! parse-kind: ClusterServiceVersion
+apiVersion: operators.coreos.com/v1alpha1
+kind: ClusterServiceVersion
+metadata:
+  name: vitess-operator.v0.9.2
+  namespace: olm-dev
+  annotations:
+    tectonic-visibility: ocs
+    alm-examples: '[]'
+spec:
+  displayName: Vitess
+  description: |
+    The Vitess Operator provides automation that simplifies the administration of Vitess clusters on Kubernetes.
+
+    The Operator installs a custom resource for objects of the custom type VitessCluster. This custom resource allows you to configure the high-level aspects of your Vitess deployment, while the details of how to run Vitess on Kubernetes are abstracted and automated.
+  keywords: ['vitess', 'mysql', 'database', 'open source']
+  version: 0.9.2
+  maturity: alpha
+  replaces: vitess-operator.v0.9.0
+  maintainers:
+  - name: CNCF
+    email: vitess@googlegroups.com
+
+  provider:
+    name: CNCF
+  labels:
+    alm-owner-etcd: vitess-operator
+    operated-by: vitess-operator
+  selector:
+    matchLabels:
+      alm-owner-etcd: vitess-operator
+      operated-by: vitess-operator
+  links:
+  - name: Vitess Operator Source Code
+    url: https://github.com/vitessio/vitess-operator
+
+  icon:
+  - base64data: PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjwhLS0gQ3JlYXRlZCB3aXRoIElua3NjYXBlIChodHRwOi8vd3d3Lmlua3NjYXBlLm9yZy8pIC0tPgoKPHN2ZwogICB4bWxuczpkYz0iaHR0cDovL3B1cmwub3JnL2RjL2VsZW1lbnRzLzEuMS8iCiAgIHhtbG5zOmNjPSJodHRwOi8vY3JlYXRpdmVjb21tb25zLm9yZy9ucyMiCiAgIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyIKICAgeG1sbnM6c3ZnPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIKICAgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIgogICB4bWxuczpzb2RpcG9kaT0iaHR0cDovL3NvZGlwb2RpLnNvdXJjZWZvcmdlLm5ldC9EVEQvc29kaXBvZGktMC5kdGQiCiAgIHhtbG5zOmlua3NjYXBlPSJodHRwOi8vd3d3Lmlua3NjYXBlLm9yZy9uYW1lc3BhY2VzL2lua3NjYXBlIgogICB3aWR0aD0iMzIwIgogICBoZWlnaHQ9IjMyMCIKICAgdmlld0JveD0iMCAwIDMyMCAzMjAiCiAgIGlkPSJzdmcyIgogICB2ZXJzaW9uPSIxLjEiCiAgIGlua3NjYXBlOnZlcnNpb249IjAuNDguNCByOTkzOSIKICAgc29kaXBvZGk6ZG9jbmFtZT0idml0ZXNzX2xvZ29fd2l0aF9ib3JkZXIuc3ZnIj4KICA8ZGVmcwogICAgIGlkPSJkZWZzNCI+CiAgICA8aW5rc2NhcGU6cGVyc3BlY3RpdmUKICAgICAgIHNvZGlwb2RpOnR5cGU9Imlua3NjYXBlOnBlcnNwM2QiCiAgICAgICBpbmtzY2FwZTp2cF94PSIwIDogNTI2LjE4MTEgOiAxIgogICAgICAgaW5rc2NhcGU6dnBfeT0iMCA6IDEwMDAgOiAwIgogICAgICAgaW5rc2NhcGU6dnBfej0iNzQ0LjA5NDQ5IDogNTI2LjE4MTEgOiAxIgogICAgICAgaW5rc2NhcGU6cGVyc3AzZC1vcmlnaW49IjM3Mi4wNDcyNCA6IDM1MC43ODc0IDogMSIKICAgICAgIGlkPSJwZXJzcGVjdGl2ZTQzNDYiIC8+CiAgPC9kZWZzPgogIDxzb2RpcG9kaTpuYW1lZHZpZXcKICAgICBpZD0iYmFzZSIKICAgICBwYWdlY29sb3I9IiMyODM1OTMiCiAgICAgYm9yZGVyY29sb3I9IiM2NjY2NjYiCiAgICAgYm9yZGVyb3BhY2l0eT0iMS4wIgogICAgIGlua3NjYXBlOnBhZ2VvcGFjaXR5PSIwIgogICAgIGlua3NjYXBlOnBhZ2VzaGFkb3c9IjIiCiAgICAgaW5rc2NhcGU6em9vbT0iMi44Mjg0MjcxIgogICAgIGlua3NjYXBlOmN4PSIxNDIuNzEwNTYiCiAgICAgaW5rc2NhcGU6Y3k9IjE4OS4wMDEzNCIKICAgICBpbmtzY2FwZTpkb2N1bWVudC11bml0cz0icHgiCiAgICAgaW5rc2NhcGU6Y3VycmVudC1sYXllcj0ibGF5ZXIxIgogICAgIHNob3dncmlkPSJmYWxzZSIKICAgICBpbmtzY2FwZTp3aW5kb3ctd2lkdGg9IjI1NjAiCiAgICAgaW5rc2NhcGU6d2luZG93LWhlaWdodD0iMTM4NiIKICAgICBpbmtzY2FwZTp3aW5kb3cteD0iMCIKICAgICBpbmtzY2FwZTp3aW5kb3cteT0iMCIKICAgICBpbmtzY2FwZTp3aW5kb3ctbWF4aW1pemVkPSIxIgogICAgIHNob3dndWlkZXM9ImZhbHNlIgogICAgIGlua3NjYXBlOmd1aWRlLWJib3g9InRydWUiCiAgICAgZml0LW1hcmdpbi10b3A9IjAiCiAgICAgZml0LW1hcmdpbi1sZWZ0PSIwIgogICAgIGZpdC1tYXJnaW4tcmlnaHQ9IjAiCiAgICAgZml0LW1hcmdpbi1ib3R0b209IjAiCiAgICAgaW5rc2NhcGU6b2JqZWN0LW5vZGVzPSJ0cnVlIgogICAgIGlua3NjYXBlOnNuYXAtc21vb3RoLW5vZGVzPSJ0cnVlIj4KICAgIDxzb2RpcG9kaTpndWlkZQogICAgICAgcG9zaXRpb249IjIxNS45ODY2MywxMTg5LjgwNzMiCiAgICAgICBvcmllbnRhdGlvbj0iMSwwIgogICAgICAgaWQ9Imd1aWRlNDcxNyIgLz4KICAgIDxzb2RpcG9kaTpndWlkZQogICAgICAgcG9zaXRpb249IjMxMS40MjA3OCwyNzYuMDQ4NTYiCiAgICAgICBvcmllbnRhdGlvbj0iMC44NzU2NzE1OCwtMC40ODI5MDcxMiIKICAgICAgIGlkPSJndWlkZTQ3MTkiIC8+CiAgICA8c29kaXBvZGk6Z3VpZGUKICAgICAgIHBvc2l0aW9uPSIxODYuNTY1OTQsMTE4Mi45ODg4IgogICAgICAgb3JpZW50YXRpb249IjEsMCIKICAgICAgIGlkPSJndWlkZTQ3MjEiIC8+CiAgICA8c29kaXBvZGk6Z3VpZGUKICAgICAgIHBvc2l0aW9uPSIxMjcuNzI0NTUsMTE4OS4wNDk3IgogICAgICAgb3JpZW50YXRpb249IjEsMCIKICAgICAgIGlkPSJndWlkZTQ3MjMiIC8+CiAgICA8c29kaXBvZGk6Z3VpZGUKICAgICAgIHBvc2l0aW9uPSI5OC44NDM3NSwxMTQ2LjM2MTEiCiAgICAgICBvcmllbnRhdGlvbj0iMSwwIgogICAgICAgaWQ9Imd1aWRlNDcyNSIgLz4KICAgIDxzb2RpcG9kaTpndWlkZQogICAgICAgcG9zaXRpb249IjIyLjM0Mzc1LDI2OC4wNzUzIgogICAgICAgb3JpZW50YXRpb249IjAuODc4Njg5MjgsMC40NzczOTQxMyIKICAgICAgIGlkPSJndWlkZTQ3MjciIC8+CiAgICA8c29kaXBvZGk6Z3VpZGUKICAgICAgIHBvc2l0aW9uPSItODguNTc0MzYsMTE3OS44MzIxIgogICAgICAgb3JpZW50YXRpb249IjAsMSIKICAgICAgIGlkPSJndWlkZTQ3MjkiIC8+CiAgICA8c29kaXBvZGk6Z3VpZGUKICAgICAgIHBvc2l0aW9uPSIxNTcuMTQ1MjQsMTE4NS44OTMiCiAgICAgICBvcmllbnRhdGlvbj0iMSwwIgogICAgICAgaWQ9Imd1aWRlNDczMSIgLz4KICAgIDxzb2RpcG9kaTpndWlkZQogICAgICAgcG9zaXRpb249IjM5LjcxNTAxLDExODMuMzY3NiIKICAgICAgIG9yaWVudGF0aW9uPSIxLDAiCiAgICAgICBpZD0iZ3VpZGU0NzMzIiAvPgogICAgPHNvZGlwb2RpOmd1aWRlCiAgICAgICBwb3NpdGlvbj0iMTAuNDIwNTksMTE4Mi45ODg4IgogICAgICAgb3JpZW50YXRpb249IjEsMCIKICAgICAgIGlkPSJndWlkZTQ3MzUiIC8+CiAgICA8c29kaXBvZGk6Z3VpZGUKICAgICAgIHBvc2l0aW9uPSItMTkuMDAwMTEsMTE4OC40MTg0IgogICAgICAgb3JpZW50YXRpb249IjEsMCIKICAgICAgIGlkPSJndWlkZTQ3MzciIC8+CiAgICA8c29kaXBvZGk6Z3VpZGUKICAgICAgIHBvc2l0aW9uPSItNDguNDIwOCwxMTg0Ljg4MjkiCiAgICAgICBvcmllbnRhdGlvbj0iMSwwIgogICAgICAgaWQ9Imd1aWRlNDc0MyIgLz4KICAgIDxzb2RpcG9kaTpndWlkZQogICAgICAgcG9zaXRpb249Ii0yMi42NjE5MSwxMTI1LjY2MjciCiAgICAgICBvcmllbnRhdGlvbj0iMCwxIgogICAgICAgaWQ9Imd1aWRlNDc0NiIgLz4KICAgIDxzb2RpcG9kaTpndWlkZQogICAgICAgcG9zaXRpb249Ijc2LjcwMDksMTA3MS4wMDM5IgogICAgICAgb3JpZW50YXRpb249IjAsMSIKICAgICAgIGlkPSJndWlkZTQ3NDkiIC8+CiAgICA8c29kaXBvZGk6Z3VpZGUKICAgICAgIHBvc2l0aW9uPSItNTUuNDQxOTYsMTAxNi43MTgyIgogICAgICAgb3JpZW50YXRpb249IjAsMSIKICAgICAgIGlkPSJndWlkZTQ3NTEiIC8+CiAgICA8c29kaXBvZGk6Z3VpZGUKICAgICAgIHBvc2l0aW9uPSIyNi4zNDM3NSw5NjIuNDMyNDkiCiAgICAgICBvcmllbnRhdGlvbj0iMCwxIgogICAgICAgaWQ9Imd1aWRlNDc1MyIgLz4KICAgIDxzb2RpcG9kaTpndWlkZQogICAgICAgcG9zaXRpb249Ii04LjgzNDgyLDkwOC4xNDY4IgogICAgICAgb3JpZW50YXRpb249IjAsMSIKICAgICAgIGlkPSJndWlkZTQ3NTUiIC8+CiAgICA8c29kaXBvZGk6Z3VpZGUKICAgICAgIHBvc2l0aW9uPSIyMi4yMzY2MSw4NTMuODYxIgogICAgICAgb3JpZW50YXRpb249IjAsMSIKICAgICAgIGlkPSJndWlkZTQ3NTciIC8+CiAgPC9zb2RpcG9kaTpuYW1lZHZpZXc+CiAgPG1ldGFkYXRhCiAgICAgaWQ9Im1ldGFkYXRhNyI+CiAgICA8cmRmOlJERj4KICAgICAgPGNjOldvcmsKICAgICAgICAgcmRmOmFib3V0PSIiPgogICAgICAgIDxkYzpmb3JtYXQ+aW1hZ2Uvc3ZnK3htbDwvZGM6Zm9ybWF0PgogICAgICAgIDxkYzp0eXBlCiAgICAgICAgICAgcmRmOnJlc291cmNlPSJodHRwOi8vcHVybC5vcmcvZGMvZGNtaXR5cGUvU3RpbGxJbWFnZSIgLz4KICAgICAgICA8ZGM6dGl0bGU+PC9kYzp0aXRsZT4KICAgICAgPC9jYzpXb3JrPgogICAgPC9yZGY6UkRGPgogIDwvbWV0YWRhdGE+CiAgPGcKICAgICBpbmtzY2FwZTpsYWJlbD0iTGF5ZXIgMSIKICAgICBpbmtzY2FwZTpncm91cG1vZGU9ImxheWVyIgogICAgIGlkPSJsYXllcjEiCiAgICAgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTIwOC42NTYyNSwtMzQ0LjQzNzUpIj4KICAgIDxwYXRoCiAgICAgICBzdHlsZT0iZmlsbDojMjU0YzYzO2ZpbGwtb3BhY2l0eToxO3N0cm9rZTojZmZmZmZmO3N0cm9rZS13aWR0aDoxNTtzdHJva2UtbWl0ZXJsaW1pdDo0O3N0cm9rZS1vcGFjaXR5OjE7c3Ryb2tlLWRhc2hhcnJheTpub25lIgogICAgICAgZD0ibSAyMjEuNTkzNzUsMzcwLjE4NzUgNTEuMTU2MjUsOTQuNSA3Ljk2ODc1LDE0LjU2MjUgMjkuNDY4NzUsNTQuMDkzNzUgMjkuNDM3NSw1NC4yODEyNSAyNy44NzUsNTEuMDYyNSA1Ny44NDM3NSwtMTA0Ljc4MTI1IDMwLjU5Mzc1LC01NS4yODEyNSA1OS43ODEyNSwtMTA4LjQzNzUgLTU4Ljc1LDAgLTI5Ljg3NSw1NC41OTM3NSAtMjkuODEyNSw1My45Njg3NSAtMjguNzgxMjUsNTMgMTQsMjUuODEyNSAtMjQuMDMxMjUsLTQ0LjE4NzUgLTM2LjMxMjUsLTY3LjAzMTI1IC0xMS45MDYyNSwtMjEuOTM3NSAtMjkuNjU2MjUsLTU0LjIxODc1IC01OSwwIHoiCiAgICAgICBpZD0icGF0aDUwNzMtMyIKICAgICAgIGlua3NjYXBlOmNvbm5lY3Rvci1jdXJ2YXR1cmU9IjAiIC8+CiAgICA8ZwogICAgICAgaWQ9Imc1NjA5IgogICAgICAgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMC4zNjMzMywtMTAuMTY0MzIpIj4KICAgICAgPHBhdGgKICAgICAgICAgc29kaXBvZGk6bm9kZXR5cGVzPSJjY2NjIgogICAgICAgICBpbmtzY2FwZTpjb25uZWN0b3ItY3VydmF0dXJlPSIwIgogICAgICAgICBpZD0icGF0aDUwNzMiCiAgICAgICAgIGQ9Im0gMzY3LjEyODIsNjQ4Ljg1ODgxIC0yNy44NzA1NCwtNTEuMDU2OTYgNDMuOTEyMjIsLTI4LjMxMjE0IHoiCiAgICAgICAgIGlua3NjYXBlOnRyYW5zZm9ybS1jZW50ZXIteT0iOS4wMzI2Nzk1IgogICAgICAgICBpbmtzY2FwZTp0cmFuc2Zvcm0tY2VudGVyLXg9IjEuMTI3ODg2NmUtMDUiCiAgICAgICAgIHN0eWxlPSJmaWxsOiMyNTRjNjM7ZmlsbC1vcGFjaXR5OjE7c3Ryb2tlOm5vbmUiIC8+CiAgICAgIDxwYXRoCiAgICAgICAgIHNvZGlwb2RpOm5vZGV0eXBlcz0iY2NjYyIKICAgICAgICAgaW5rc2NhcGU6Y29ubmVjdG9yLWN1cnZhdHVyZT0iMCIKICAgICAgICAgaWQ9InBhdGg1MDc1IgogICAgICAgICBkPSJtIDM1OC4xMTg3Nyw1MjMuNTQ1ODkgLTE4Ljg2MTExLDc0LjI1NTk2IDQzLjg5MzAzLC0yOC4yMzc1MyB6IgogICAgICAgICBpbmtzY2FwZTp0cmFuc2Zvcm0tY2VudGVyLXk9Ii05LjAzMjYzMjQiCiAgICAgICAgIGlua3NjYXBlOnRyYW5zZm9ybS1jZW50ZXIteD0iMS4wODMzNDQ0ZS0wNSIKICAgICAgICAgc3R5bGU9ImZpbGw6IzI2NWM3ZDtmaWxsLW9wYWNpdHk6MTtzdHJva2U6bm9uZSIgLz4KICAgICAgPHBhdGgKICAgICAgICAgc29kaXBvZGk6bm9kZXR5cGVzPSJjY2NjIgogICAgICAgICBpbmtzY2FwZTpjb25uZWN0b3ItY3VydmF0dXJlPSIwIgogICAgICAgICBpZD0icGF0aDUwNzciCiAgICAgICAgIGQ9Ik0gMzM5LjI1NzY2LDU5Ny44MDE4NSAzMDkuODE5OTIsNTQzLjQ5NjQgMzU4LjExODc3LDUyMy41NDU4OSB6IgogICAgICAgICBpbmtzY2FwZTp0cmFuc2Zvcm0tY2VudGVyLXk9IjkuMDMyNjc1NyIKICAgICAgICAgaW5rc2NhcGU6dHJhbnNmb3JtLWNlbnRlci14PSIxLjQ1Mzk2MDVlLTA1IgogICAgICAgICBzdHlsZT0iZmlsbDojMzc4OGI3O2ZpbGwtb3BhY2l0eToxO3N0cm9rZTpub25lIiAvPgogICAgICA8cGF0aAogICAgICAgICBzb2RpcG9kaTpub2RldHlwZXM9ImNjY2MiCiAgICAgICAgIGlua3NjYXBlOmNvbm5lY3Rvci1jdXJ2YXR1cmU9IjAiCiAgICAgICAgIGlkPSJwYXRoNTA4MyIKICAgICAgICAgZD0ibSAzMjEuNzc5MjUsNDU2LjUxNDA0IC0xMS45NTkzMyw4Ni45ODIzNiA0OC4yOTg4NSwtMTkuOTUwNTEgeiIKICAgICAgICAgaW5rc2NhcGU6dHJhbnNmb3JtLWNlbnRlci15PSItOS4wMzI2NzE5IgogICAgICAgICBpbmtzY2FwZTp0cmFuc2Zvcm0tY2VudGVyLXg9IjEuNDUzOTYwNWUtMDUiCiAgICAgICAgIHN0eWxlPSJmaWxsOiMxZTRjNjY7ZmlsbC1vcGFjaXR5OjE7c3Ryb2tlOm5vbmUiIC8+CiAgICAgIDxwYXRoCiAgICAgICAgIHNvZGlwb2RpOm5vZGV0eXBlcz0iY2NjYyIKICAgICAgICAgaW5rc2NhcGU6Y29ubmVjdG9yLWN1cnZhdHVyZT0iMCIKICAgICAgICAgaWQ9InBhdGg1MDg1IgogICAgICAgICBkPSJtIDM5Ni45MjgwOSw0ODguOTI2MDcgLTI4LjgwNjk0LDUzLjAwNjM2IDE1LjAyOTU0LDI3LjYzMTg5IHoiCiAgICAgICAgIGlua3NjYXBlOnRyYW5zZm9ybS1jZW50ZXIteT0iLTkuMDMyNjcxOSIKICAgICAgICAgaW5rc2NhcGU6dHJhbnNmb3JtLWNlbnRlci14PSIxLjcxMjcyODNlLTA1IgogICAgICAgICBzdHlsZT0iZmlsbDojM2U5ZGQ3O2ZpbGwtb3BhY2l0eToxO3N0cm9rZTpub25lIiAvPgogICAgICA8cGF0aAogICAgICAgICBzb2RpcG9kaTpub2RldHlwZXM9ImNjY2MiCiAgICAgICAgIGlua3NjYXBlOmNvbm5lY3Rvci1jdXJ2YXR1cmU9IjAiCiAgICAgICAgIGlkPSJwYXRoNTA4NyIKICAgICAgICAgZD0ibSAzMDkuODE5OTIsNTQzLjQ5NjQgLTI5LjQ1Nzg2LC01NC4wODIwNCA0MS40MTcxOSwtMzIuOTAwMzIgeiIKICAgICAgICAgaW5rc2NhcGU6dHJhbnNmb3JtLWNlbnRlci15PSI5LjAzMjY3NTIiCiAgICAgICAgIGlua3NjYXBlOnRyYW5zZm9ybS1jZW50ZXIteD0iMS42MDE4MjM5ZS0wNSIKICAgICAgICAgc3R5bGU9ImZpbGw6IzJkNzA5YTtmaWxsLW9wYWNpdHk6MTtzdHJva2U6bm9uZSIgLz4KICAgICAgPHBhdGgKICAgICAgICAgc29kaXBvZGk6bm9kZXR5cGVzPSJjY2NjIgogICAgICAgICBpbmtzY2FwZTpjb25uZWN0b3ItY3VydmF0dXJlPSIwIgogICAgICAgICBpZD0icGF0aDUwODkiCiAgICAgICAgIGQ9Im0gNDI0Ljk2NzE0LDU0NC4wODQgLTM3LjQ2NDk3LDAuMDMxMiA2OC4wNTc5MiwtNTUuMzE5NzYgeiIKICAgICAgICAgaW5rc2NhcGU6dHJhbnNmb3JtLWNlbnRlci15PSI5LjAzMjY3NTIiCiAgICAgICAgIGlua3NjYXBlOnRyYW5zZm9ybS1jZW50ZXIteD0iMS40MzExOTY3ZS0wNSIKICAgICAgICAgc3R5bGU9ImZpbGw6IzI4NDk1YztmaWxsLW9wYWNpdHk6MTtzdHJva2U6bm9uZSIgLz4KICAgICAgPHBhdGgKICAgICAgICAgc29kaXBvZGk6bm9kZXR5cGVzPSJjY2NjIgogICAgICAgICBpbmtzY2FwZTpjb25uZWN0b3ItY3VydmF0dXJlPSIwIgogICAgICAgICBpZD0icGF0aDUwOTciCiAgICAgICAgIGQ9Im0gMzA5Ljg4Mjc3LDQzNC41ODgxNSAtMjkuNTIwNzEsNTQuODI2MjEgNDEuNDE3MTksLTMyLjkwMDMyIHoiCiAgICAgICAgIGlua3NjYXBlOnRyYW5zZm9ybS1jZW50ZXIteT0iLTkuMDMyNjc0MSIKICAgICAgICAgaW5rc2NhcGU6dHJhbnNmb3JtLWNlbnRlci14PSIxLjc4MDAzNDNlLTA1IgogICAgICAgICBzdHlsZT0iZmlsbDojM2M5N2NlO2ZpbGwtb3BhY2l0eToxO3N0cm9rZTpub25lIiAvPgogICAgICA8cGF0aAogICAgICAgICBzb2RpcG9kaTpub2RldHlwZXM9ImNjY2MiCiAgICAgICAgIGlua3NjYXBlOmNvbm5lY3Rvci1jdXJ2YXR1cmU9IjAiCiAgICAgICAgIGlkPSJwYXRoNTA5OSIKICAgICAgICAgZD0ibSA0MjYuNzIxNDksNDM0Ljk0NTI5IC0yOS43OTM0LDUzLjk4MDc4IC05LjQyNTkyLDU1LjE4OTEzIHoiCiAgICAgICAgIGlua3NjYXBlOnRyYW5zZm9ybS1jZW50ZXIteT0iLTkuMDMyNjc0MSIKICAgICAgICAgaW5rc2NhcGU6dHJhbnNmb3JtLWNlbnRlci14PSIxLjYwOTQwN2UtMDUiCiAgICAgICAgIHN0eWxlPSJmaWxsOiM2MWI3ZWI7ZmlsbC1vcGFjaXR5OjE7c3Ryb2tlOm5vbmUiIC8+CiAgICAgIDxwYXRoCiAgICAgICAgIHNvZGlwb2RpOm5vZGV0eXBlcz0iY2NjYyIKICAgICAgICAgaW5rc2NhcGU6Y29ubmVjdG9yLWN1cnZhdHVyZT0iMCIKICAgICAgICAgaWQ9InBhdGg1MTAxIgogICAgICAgICBkPSJtIDI4MC4zNjIwNiw0ODkuNDE0MzYgLTcuOTkxMTEsLTE0LjU2ODYxIDM3LjUxMTgyLC00MC4yNTc1OSB6IgogICAgICAgICBpbmtzY2FwZTp0cmFuc2Zvcm0tY2VudGVyLXk9IjkuMDMyNjc5OCIKICAgICAgICAgc3R5bGU9ImZpbGw6IzFlNGM2NjtmaWxsLW9wYWNpdHk6MTtzdHJva2U6bm9uZSIgLz4KICAgICAgPHBhdGgKICAgICAgICAgc29kaXBvZGk6bm9kZXR5cGVzPSJjY2NjIgogICAgICAgICBpbmtzY2FwZTpjb25uZWN0b3ItY3VydmF0dXJlPSIwIgogICAgICAgICBpZD0icGF0aDUxMDMiCiAgICAgICAgIGQ9Im0gMzg3LjUwMjE3LDU0NC4xMTUyIDM5LjIxOTMyLC0xMDkuMTY5OTEgMjguODM4Niw1My44NTAxOCB6IgogICAgICAgICBpbmtzY2FwZTp0cmFuc2Zvcm0tY2VudGVyLXk9IjkuMDMyNjc5OCIKICAgICAgICAgaW5rc2NhcGU6dHJhbnNmb3JtLWNlbnRlci14PSIxLjM3MjQ1OTFlLTA1IgogICAgICAgICBzdHlsZT0iZmlsbDojMjk2NTg5O2ZpbGwtb3BhY2l0eToxO3N0cm9rZTpub25lIiAvPgogICAgICA8cGF0aAogICAgICAgICBzb2RpcG9kaTpub2RldHlwZXM9ImNjY2MiCiAgICAgICAgIGlua3NjYXBlOmNvbm5lY3Rvci1jdXJ2YXR1cmU9IjAiCiAgICAgICAgIGlkPSJwYXRoNTExNSIKICAgICAgICAgZD0ibSAyODAuMjIwMTksMzgwLjM0NDgzIC03Ljg0OTI0LDk0LjUwMDkyIDM3LjUxMTgyLC00MC4yNTc1OSB6IgogICAgICAgICBpbmtzY2FwZTp0cmFuc2Zvcm0tY2VudGVyLXk9Ii05LjAzMjY3MzgiCiAgICAgICAgIGlua3NjYXBlOnRyYW5zZm9ybS1jZW50ZXIteD0iMS40MTM2MzA3ZS0wNSIKICAgICAgICAgc3R5bGU9ImZpbGw6IzFhNWE4MTtmaWxsLW9wYWNpdHk6MTtzdHJva2U6bm9uZSIgLz4KICAgICAgPHBhdGgKICAgICAgICAgc29kaXBvZGk6bm9kZXR5cGVzPSJjY2NjIgogICAgICAgICBpbmtzY2FwZTpjb25uZWN0b3ItY3VydmF0dXJlPSIwIgogICAgICAgICBpZD0icGF0aDUxMTciCiAgICAgICAgIGQ9Im0gNDU2LjYxMzc1LDM4MC4zNDQ4MyAtMjkuODkyMjYsNTQuNjAwNDYgMjguODM4Niw1My44NTAxOCB6IgogICAgICAgICBpbmtzY2FwZTp0cmFuc2Zvcm0tY2VudGVyLXk9Ii05LjAzMjY3MzgiCiAgICAgICAgIGlua3NjYXBlOnRyYW5zZm9ybS1jZW50ZXIteD0iMS40MzE2NTc5ZS0wNSIKICAgICAgICAgc3R5bGU9ImZpbGw6IzQyN2I5ZTtmaWxsLW9wYWNpdHk6MTtzdHJva2U6bm9uZSIgLz4KICAgICAgPHBhdGgKICAgICAgICAgc29kaXBvZGk6bm9kZXR5cGVzPSJjY2NjIgogICAgICAgICBpbmtzY2FwZTpjb25uZWN0b3ItY3VydmF0dXJlPSIwIgogICAgICAgICBpZD0icGF0aDUxMTkiCiAgICAgICAgIGQ9Im0gMjcyLjM3MDk1LDQ3NC44NDU3NSAtNTEuMTUyODYsLTk0LjUwMDkyIDU5LjAwMjEsMCB6IgogICAgICAgICBpbmtzY2FwZTp0cmFuc2Zvcm0tY2VudGVyLXk9IjkuMDMyNjczMiIKICAgICAgICAgaW5rc2NhcGU6dHJhbnNmb3JtLWNlbnRlci14PSIxLjI1Mzk3MTdlLTA1IgogICAgICAgICBzdHlsZT0iZmlsbDojMzI4Y2MyO2ZpbGwtb3BhY2l0eToxO3N0cm9rZTpub25lIiAvPgogICAgICA8cGF0aAogICAgICAgICBzb2RpcG9kaTpub2RldHlwZXM9ImNjY2MiCiAgICAgICAgIGlua3NjYXBlOmNvbm5lY3Rvci1jdXJ2YXR1cmU9IjAiCiAgICAgICAgIGlkPSJwYXRoNTEyMSIKICAgICAgICAgZD0ibSA0NTUuNTYwMDksNDg4Ljc5NTQ3IDEuMDUzNjYsLTEwOC40NTA2NCA1OC43NTQsMCB6IgogICAgICAgICBpbmtzY2FwZTp0cmFuc2Zvcm0tY2VudGVyLXk9IjkuMDMyNjczMiIKICAgICAgICAgc3R5bGU9ImZpbGw6IzE4M2I0ZjtmaWxsLW9wYWNpdHk6MTtzdHJva2U6bm9uZSIgLz4KICAgICAgPHBhdGgKICAgICAgICAgc29kaXBvZGk6bm9kZXR5cGVzPSJjY2NjIgogICAgICAgICBpbmtzY2FwZTpjb25uZWN0b3ItY3VydmF0dXJlPSIwIgogICAgICAgICBpZD0icGF0aDUwNzkiCiAgICAgICAgIGQ9Ik0gMzY3LjEyODIsNjQ4Ljg1ODgxIDM4Ny41MDIxNyw1NDQuMTE1MiA0MjQuOTY3MTQsNTQ0LjA4NCB6IgogICAgICAgICBpbmtzY2FwZTp0cmFuc2Zvcm0tY2VudGVyLXk9IjkuMDMyNjc1NyIKICAgICAgICAgaW5rc2NhcGU6dHJhbnNmb3JtLWNlbnRlci14PSIxLjcxMjcyODNlLTA1IgogICAgICAgICBzdHlsZT0iZmlsbDojMGQzMDQ0O2ZpbGwtb3BhY2l0eToxO3N0cm9rZTpub25lIiAvPgogICAgPC9nPgogIDwvZz4KPC9zdmc+Cg==
+    mediatype: image/svg+xml
+  install:
+    strategy: deployment
+    spec:
+      permissions:
+      - serviceAccountName: vitess-operator
+        rules:
+        - apiGroups:
+          - vitess.io
+          resources:
+          - vitessclusters
+          - vitesscells
+          - vitesskeyspaces
+          - vitessshards
+          verbs:
+          - "*"
+        - apiGroups:
+          - 
+        - apiGroups:
+          - ""
+          resources:
+          - pods
+          - services
+          - endpoints
+          - persistentvolumeclaims
+          - events
+          verbs:
+          - "*"
+        - apiGroups:
+          - apps
+          resources:
+          - deployments
+          verbs:
+          - "*"
+        - apiGroups:
+          - ""
+          resources:
+          - secrets
+          verbs:
+          - get
+      deployments:
+      - name: vitess-operator
+        spec:
+          replicas: 1
+          selector:
+            matchLabels:
+              name: vitess-operator-alm-owned
+          template:
+            metadata:
+              name: vitess-operator-alm-owned
+              labels:
+                name: vitess-operator-alm-owned
+            spec:
+              serviceAccountName: vitess-operator
+              initContainers: []
+                # TODO(alecmerdler): Add init container to create `CompositeController` instances
+              containers:
+              - name: hooks
+                image: metacontroller/jsonnetd:0.1
+                imagePullPolicy: Always
+                workingDir: /vt/operator/hooks
+                volumeMounts:
+                - name: hooks
+                  mountPath: /vt/operator/hooks
+              volumes:
+              - name: hooks
+                configMap:
+                  name: vitess-operator-hooks
+  customresourcedefinitions:
+    owned:
+    - name: vitessclusters.vitess.io
+      version: v1alpha1
+      kind: VitessCluster
+      displayName: Vitess Cluster
+      description: Represents a cluster of Vitess nodes.
+    - name: vitesscells.vitess.io
+      version: v1alpha1
+      kind: VitessCell
+      displayName: Vitess Cell
+      description: Each Vitess cell represents an independent failure domain (e.g. a Zone or Availability Zone).
+    - name: vitessshards.vitess.io
+      version: v1alpha1
+      kind: VitessShards
+      displayName: Vitess Shard
+      description: Each Vitess keyspace is a logical database that may be composed of many MySQL databases (shards).
+    - name: vitesskeyspaces.vitess.io
+      version: v1alpha1
+      kind: VitessKeyspace
+      displayName: Vitess Keyspace
+      description: Each Vitess keyspace is a logical database that may be composed of many MySQL databases (shards).
+    required:
+    # TODO(alecmerdler): Package Metacontroller for OLM as a dependency
+    - name: compositecontrollers.metacontroller.k8s.io
+      version: v1alpha1
+      kind: CompositeController
+      displayName: Composite Controller
+      description: Facilitates custom controllers whose primary purpose is to manage a set of child objects based on the desired state specified in a parent object.
+    - name: etcdclusters.etcd.database.coreos.com
+      version: v1beta2
+      kind: EtcdCluster
+      displayName: etcd Cluster
+      description: Represents a cluster of etcd nodes.
+      resources:
+        - kind: Service
+          version: v1
+        - kind: Pod
+          version: v1
+      specDescriptors:
+        - description: The desired number of member Pods for the etcd cluster.
+          displayName: Size
+          path: size
+          x-descriptors:
+            - 'urn:alm:descriptor:com.tectonic.ui:podCount'
+        - description: Limits describes the minimum/maximum amount of compute resources required/allowed
+          displayName: Resource Requirements
+          path: pod.resources
+          x-descriptors:
+            - 'urn:alm:descriptor:com.tectonic.ui:resourceRequirements'
+      statusDescriptors:
+        - description: The status of each of the member Pods for the etcd cluster.
+          displayName: Member Status
+          path: members
+          x-descriptors:
+            - 'urn:alm:descriptor:com.tectonic.ui:podStatuses'
+        - description: The service at which the running etcd cluster can be accessed.
+          displayName: Service
+          path: serviceName
+          x-descriptors:
+            - 'urn:alm:descriptor:io.kubernetes:Service'
+        - description: The current size of the etcd cluster.
+          displayName: Cluster Size
+          path: size
+        - description: The current version of the etcd cluster.
+          displayName: Current Version
+          path: currentVersion
+        - description: 'The target version of the etcd cluster, after upgrading.'
+          displayName: Target Version
+          path: targetVersion
+        - description: The current status of the etcd cluster.
+          displayName: Status
+          path: phase
+          x-descriptors:
+            - 'urn:alm:descriptor:io.kubernetes.phase'
+        - description: Explanation for the current status of the cluster.
+          displayName: Status Details
+          path: reason
+          x-descriptors:
+            - 'urn:alm:descriptor:io.kubernetes.phase:reason'
+     
