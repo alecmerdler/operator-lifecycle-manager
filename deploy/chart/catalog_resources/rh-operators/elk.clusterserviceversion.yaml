@@ -1,0 +1,111 @@
+#! validate-crd: ./deploy/chart/templates/03-clusterserviceversion.crd.yaml
+#! parse-kind: ClusterServiceVersion
+apiVersion: operators.coreos.com/v1alpha1
+kind: ClusterServiceVersion
+metadata:
+  name: elk-operator.v0.0.1
+  namespace: placeholder
+  annotations:
+    alm-examples: '[]'
+spec:
+  displayName: ELK Operator
+  description: |
+    The ELK Operator configures and manages a high-availability Elasticsearch, Logstash, Kibana stack for cluster logging.   
+
+  keywords: ['elk', 'elasticsearch', 'logstash', 'kibana']
+
+  maintainers:
+  - name: Red Hat
+    email: openshift-operators@redhat.com
+
+  provider:
+    name: Red Hat, Inc
+
+  links:
+  - name: ELK Stack
+    url: https://www.elastic.co/elk-stack
+
+  labels:
+    alm-status-descriptors: elk-operator.v0.0.1
+    alm-owner-elk: elk-operator
+
+  selector:
+    matchLabels:
+      alm-owner-elk: elk-operator
+
+  icon:
+  - base64data: PHN2ZyBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmlld0JveD0iMCAwIDgwIDgwIiB3aWR0aD0iMjUwMCIgaGVpZ2h0PSIyNTAwIj48c3R5bGU+LnN0MHtjbGlwLXBhdGg6dXJsKCNTVkdJRF8yXyk7ZmlsbDojZjBiZjFhfS5zdDF7Y2xpcC1wYXRoOnVybCgjU1ZHSURfNF8pO2ZpbGw6IzNlYmViMH0uc3Qye2NsaXAtcGF0aDp1cmwoI1NWR0lEXzZfKTtmaWxsOiMwN2E1ZGV9LnN0M3tjbGlwLXBhdGg6dXJsKCNTVkdJRF84Xyk7ZmlsbDojMjMxZjIwfS5zdDR7ZmlsbDojZDdhMjI5fS5zdDV7ZmlsbDojMDE5YjhmfS5zdDZ7ZmlsbDpub25lfTwvc3R5bGU+PGRlZnM+PGNpcmNsZSBpZD0iU1ZHSURfMV8iIGN4PSI0MCIgY3k9IjQwIiByPSIzMiIvPjwvZGVmcz48Y2xpcFBhdGggaWQ9IlNWR0lEXzJfIj48dXNlIHhsaW5rOmhyZWY9IiNTVkdJRF8xXyIgb3ZlcmZsb3c9InZpc2libGUiLz48L2NsaXBQYXRoPjxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik01My43IDI2SDEwYy0xLjEgMC0yLS45LTItMlYxMGMwLTEuMS45LTIgMi0yaDU3YzEuMSAwIDIgLjkgMiAydi43QzY4LjkgMTkuMSA2Mi4xIDI2IDUzLjcgMjZ6Ii8+PGRlZnM+PGNpcmNsZSBpZD0iU1ZHSURfM18iIGN4PSI0MCIgY3k9IjQwIiByPSIzMiIvPjwvZGVmcz48Y2xpcFBhdGggaWQ9IlNWR0lEXzRfIj48dXNlIHhsaW5rOmhyZWY9IiNTVkdJRF8zXyIgb3ZlcmZsb3c9InZpc2libGUiLz48L2NsaXBQYXRoPjxwYXRoIGNsYXNzPSJzdDEiIGQ9Ik02OS4xIDcySDguMlY1NGg0NS43YzguNCAwIDE1LjIgNi44IDE1LjIgMTUuMlY3MnoiLz48Zz48ZGVmcz48Y2lyY2xlIGlkPSJTVkdJRF81XyIgY3g9IjQwIiBjeT0iNDAiIHI9IjMyIi8+PC9kZWZzPjxjbGlwUGF0aCBpZD0iU1ZHSURfNl8iPjx1c2UgeGxpbms6aHJlZj0iI1NWR0lEXzVfIiBvdmVyZmxvdz0idmlzaWJsZSIvPjwvY2xpcFBhdGg+PHBhdGggY2xhc3M9InN0MiIgZD0iTTUwLjEgNDlINC44VjMxaDQ1LjNjNSAwIDkgNCA5IDlzLTQuMSA5LTkgOXoiLz48L2c+PGc+PGRlZnM+PGNpcmNsZSBpZD0iU1ZHSURfN18iIGN4PSI0MCIgY3k9IjQwIiByPSIzMiIvPjwvZGVmcz48Y2xpcFBhdGggaWQ9IlNWR0lEXzhfIj48dXNlIHhsaW5rOmhyZWY9IiNTVkdJRF83XyIgb3ZlcmZsb3c9InZpc2libGUiLz48L2NsaXBQYXRoPjxwYXRoIGNsYXNzPSJzdDMiIGQ9Ik0zNiAzMUg2LjR2MThIMzZjLjctMi43IDEuMS01LjcgMS4xLTlzLS40LTYuMy0xLjEtOXoiLz48L2c+PHBhdGggY2xhc3M9InN0NCIgZD0iTTIzLjkgMTIuM2MtNS40IDMuMi05LjkgOC0xMi43IDEzLjdoMjMuNmMtMi40LTUuNS02LjItMTAuMS0xMC45LTEzLjd6Ii8+PHBhdGggY2xhc3M9InN0NSIgZD0iTTI0LjkgNjguMmM0LjYtMy43IDguMy04LjYgMTAuNi0xNC4ySDExLjJjMyA2IDcuOCAxMSAxMy43IDE0LjJ6Ii8+PHBhdGggY2xhc3M9InN0NiIgZD0iTTAgMGg4MHY4MEgweiIvPjwvc3ZnPg==
+    mediatype: image/svg+xml
+
+  install:
+    strategy: deployment
+    spec:
+      permissions:
+      - serviceAccountName: elk-operator
+        rules:
+        - apiGroups:
+          - logging.openshift.io
+          resources:
+          - "*"
+          verbs:
+          - "*"
+        - apiGroups:
+          - ""
+          resources:
+          - pods
+          - services
+          - endpoints
+          - persistentvolumeclaims
+          - events
+          - configmaps
+          - secrets
+          verbs:
+          - "*"
+        - apiGroups:
+          - apps
+          resources:
+          - deployments
+          - daemonsets
+          - replicasets
+          - statefulsets
+          verbs:
+          - "*"
+      deployments:
+      - name: elk-operator
+        spec:
+          replicas: 1
+          selector:
+            matchLabels:
+              k8s-app: elk-operator
+          template:
+            metadata:
+              labels:
+                k8s-app: elk-operator
+            spec:
+              serviceAccount: elk-operator-0-22-2
+              containers:
+              - name: elk-operator
+                image: quay.io/openshift/cluster-logging-operator
+  maturity: alpha
+  version: 0.0.1
+  customresourcedefinitions:
+    owned:
+    - name: clusterloggings.logging.openshift.io
+      version: v1beta1
+      kind: ClusterLogging
+      displayName: Cluster Logging
+      description: A full ELK stack
+      resources:
+      - kind: Pod
+        version: v1
+      specDescriptors:
+      - description: Desired number of Pods for Kibana
+        displayName: Replicas
+        path: visualization.replicas
+        x-descriptors:
+        - 'urn:alm:descriptor:com.tectonic.ui:podCount'
+      - description: Limits describes the minimum/maximum amount of compute resources required/allowed
+        displayName: Resource Requirements
+        path: visualization.resources
+        x-descriptors:
+        - 'urn:alm:descriptor:com.tectonic.ui:resourceRequirements'
