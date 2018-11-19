@@ -55,7 +55,7 @@ func (a *Operator) syncOperatorGroups(obj interface{}) error {
 		origCSVannotations := csv.GetAnnotations()
 		a.addAnnotationsToObjectMeta(&csv.ObjectMeta, op, nsListJoined)
 		if reflect.DeepEqual(origCSVannotations, csv.GetAnnotations()) == false {
-			// CRDs don't support strategic merge patching, but in the future if they do this should be updated to patch
+			// TODO: CRDs don't support strategic merge patching, but in the future if they do this should be updated to patch
 			if _, err := a.client.OperatorsV1alpha1().ClusterServiceVersions(csv.GetNamespace()).Update(csv); err != nil {
 				log.Errorf("Update for existing CSV failed: %v", err)
 			}
@@ -162,6 +162,38 @@ func (a *Operator) updateNamespaceList(op *v1alpha2.OperatorGroup) ([]*corev1.Na
 		return namespaceList, nil
 	}
 	log.Debugf("Namespace change detected, found: %v", namespaceList)
+
+	newNamespaces := make(map[string]bool)
+	for _, ns := range namespaceList {
+		newNamespaces[ns.GetName()] = true
+	}
+	oldNamespaces := make(map[string]bool)
+	for _, ns := range op.Status.Namespaces {
+		oldNamespaces[ns.GetName()] = true
+	}
+
+	// ns in `op.Status.Namespaces` but not `namespaceList` - remove lister
+	found := false
+	for oldNS := range oldNamespaces {
+		_, ok := newNamespaces[oldNS]
+		found = ok
+	}
+	if !found {
+		// TODO(alecmerdler): Remove lister
+	}
+
+	// ns in `op.Status.Namespaces` and `namespaceList` - do nothing
+
+	// ns in `namespaceList` but not `op.Status.Namespaces` - add lister
+	found = false
+	for newNS := range newNamespaces {
+		_, ok := oldNamespaces[oldNS]
+		found = ok
+	}
+	if !found {
+		// TODO(alecmerdler): Add lister
+	}
+
 	op.Status.Namespaces = make([]*corev1.Namespace, len(namespaceList))
 	copy(op.Status.Namespaces, namespaceList)
 	op.Status.LastUpdated = timeNow()

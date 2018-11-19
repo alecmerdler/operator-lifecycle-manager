@@ -220,6 +220,7 @@ func NewOperator(crClient versioned.Interface, opClient operatorclient.ClientInt
 		DeleteFunc: op.deleteClusterServiceVersion,
 	}
 	for _, namespace := range namespaces {
+		// TODO(alecmerdler): Refactoring this may be necessary in order to dynamically register listers for `targetNamespaces` in `syncOperatorGroups(1)`
 		log.WithField("namespace", namespace).Infof("watching CSVs")
 		sharedInformerFactory := externalversions.NewSharedInformerFactoryWithOptions(crClient, wakeupInterval, externalversions.WithNamespace(namespace))
 		csvInformer := sharedInformerFactory.Operators().V1alpha1().ClusterServiceVersions()

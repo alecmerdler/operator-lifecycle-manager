@@ -74,6 +74,17 @@ func (l *operatorsV1alpha1Lister) RegisterClusterServiceVersionLister(namespace 
 	l.clusterServiceVersionLister.RegisterClusterServiceVersionLister(namespace, lister)
 }
 
+func (ucl *UnionClusterServiceVersionLister) ForgetClusterServiceVersionLister(namespace string) {
+	ucl.csvLock.Lock()
+	defer ucl.csvLock.Unlock()
+
+	delete(ucl.csvListers, namespace)
+}
+
+func (l *operatorsV1alpha1Lister) ForgetClusterServiceVersionLister(namespace string) {
+	l.clusterServiceVersionLister.ForgetClusterServiceVersionLister(namespace)
+}
+
 func (l *operatorsV1alpha1Lister) ClusterServiceVersionLister() listers.ClusterServiceVersionLister {
 	return l.clusterServiceVersionLister
 }
