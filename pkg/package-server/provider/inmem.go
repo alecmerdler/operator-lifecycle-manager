@@ -45,6 +45,7 @@ type InMemoryProvider struct {
 	globalNamespace string
 
 	manifests map[packageKey]packagev1alpha1.PackageManifest
+	
 
 	add    []eventChan
 	modify []eventChan
@@ -279,6 +280,8 @@ func (m *InMemoryProvider) List(namespace string) (*packagev1alpha1.PackageManif
 		manifestList.Items = matching
 	}
 
+	// TODO(alecmerdler): Add `metadata.resourceVersion`
+	manifestList.SetResourceVersion()
 	return manifestList, nil
 }
 
@@ -296,6 +299,7 @@ func (m *InMemoryProvider) Subscribe(namespace string, stopCh <-chan struct{}) (
 	m.modify = append(m.modify, modify)
 	m.delete = append(m.delete, delete)
 
+	// TODO(alecmerdler): Support `metadata.resourceVersion`
 	go func() {
 		<-stopCh
 		m.mu.Lock()
