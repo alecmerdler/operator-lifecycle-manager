@@ -234,17 +234,15 @@ func NewOperator(kubeconfigPath string, logger *logrus.Logger, wakeupInterval ti
 		operatorGroupInformer := sharedInformerFactory.Operators().V1alpha2().OperatorGroups()
 		op.lister.OperatorsV1alpha2().RegisterOperatorGroupLister(namespace, operatorGroupInformer.Lister())
 
+		noopHandler := func(obj interface{}) error { return nil }
+
 		// Register queue and QueueInformer
 		queueName := fmt.Sprintf("%s/operatorgroups", namespace)
 		operatorGroupQueue := workqueue.NewNamedRateLimitingQueue(workqueue.DefaultControllerRateLimiter(), queueName)
-		operatorGroupQueueInformer := queueinformer.NewInformer(operatorGroupQueue, operatorGroupInformer.Informer(), NoopHandler, nil, queueName, metrics.NewMetricsNil(), logger)
+		operatorGroupQueueInformer := queueinformer.NewInformer(operatorGroupQueue, operatorGroupInformer.Informer(), noopHandler, nil, queueName, metrics.NewMetricsNil(), logger)
 		op.RegisterQueueInformer(operatorGroupQueueInformer)
 	}
 	return op, nil
-}
-
-func NoopHandler(obj interface{}) error {
-	return nil
 }
 
 func (o *Operator) syncObject(obj interface{}) (syncError error) {
@@ -608,6 +606,7 @@ func (o *Operator) syncResolvingNamespace(obj interface{}) error {
 	return nil
 }
 
+// syncSubscription just requeues the given subscription's namespace. Actual sync logic found in `syncResolvingNamespace()`.
 func (o *Operator) syncSubscriptions(obj interface{}) error {
 	sub, ok := obj.(*v1alpha1.Subscription)
 	if !ok {
