@@ -3,6 +3,7 @@ package v1alpha1
 import (
 	"fmt"
 
+	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
 
@@ -75,9 +76,69 @@ func (s *RegistryServiceStatus) Address() string {
 	return fmt.Sprintf("%s.%s.svc.cluster.local:%s", s.ServiceName, s.ServiceNamespace, s.Port)
 }
 
+type CatalogSourceConditionType string
+
+const (
+	CatalogSourceAvailable CatalogSourceConditionType = "Available"
+)
+
+type CatalogSourceConditionReason string
+
+const (
+	CatalogSourceReasonInvalidType       CatalogSourceConditionReason = "InvalidSourceType"
+	CatalogSourceReasonConfigMapNotFound CatalogSourceConditionReason = "ConfigMapNotFound"
+	CatalogSourceReasonRegistryHealthy   CatalogSourceConditionReason = "RegistryHealthy"
+)
+
+type CatalogSourceCondition struct {
+	Type               CatalogSourceConditionType   `json:"type,omitempty"`
+	Status             corev1.ConditionStatus       `json:"status,omitempty"`
+	LastUpdateTime     metav1.Time                  `json:"lastUpdateTime,omitempty"`
+	LastTransitionTime metav1.Time                  `json:"lastTransitionTime,omitempty"`
+	Reason             CatalogSourceConditionReason `json:"reason,omitempty"`
+	Message            string                       `json:"message,omitempty"`
+}
+
+// SetCatalogSourceCondition adds or updates a condition, using `Type` as merge key
+func (s *CatalogSourceStatus) SetCondition(cond CatalogSourceCondition) CatalogSourceCondition {
+	updated := now()
+	cond.LastUpdateTime = updated
+	cond.LastTransitionTime = updated
+
+	for i, existing := range s.Conditions {
+		if existing.Type != cond.Type {
+			continue
+		}
+		if existing.Status == cond.Status {
+			cond.LastTransitionTime = existing.LastTransitionTime
+		}
+		s.Conditions[i] = cond
+		return cond
+	}
+	s.Conditions = append(s.Conditions, cond)
+	return cond
+}
+
+func CatalogSourceConditionFailed(cond CatalogSourceConditionType, reason CatalogSourceConditionReason, err error) CatalogSourceCondition {
+	return CatalogSourceCondition{
+		Type:    cond,
+		Status:  corev1.ConditionFalse,
+		Reason:  reason,
+		Message: err.Error(),
+	}
+}
+
+func CatalogSourceConditionMet(cond CatalogSourceConditionType) CatalogSourceCondition {
+	return CatalogSourceCondition{
+		Type:   cond,
+		Status: corev1.ConditionTrue,
+	}
+}
+
 type CatalogSourceStatus struct {
 	ConfigMapResource     *ConfigMapResourceReference `json:"configMapReference,omitempty"`
 	RegistryServiceStatus *RegistryServiceStatus      `json:"registryService,omitempty"`
+	Conditions            []CatalogSourceCondition    `json:"conditions,omitempty"`
 	LastSync              metav1.Time                 `json:"lastSync,omitempty"`
 }
 

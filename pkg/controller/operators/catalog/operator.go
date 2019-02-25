@@ -352,7 +352,12 @@ func (o *Operator) syncCatalogSources(obj interface{}) (syncError error) {
 		// Get the catalog source's config map
 		configMap, err := o.lister.CoreV1().ConfigMapLister().ConfigMaps(catsrc.GetNamespace()).Get(catsrc.Spec.ConfigMap)
 		if err != nil {
-			return fmt.Errorf("failed to get catalog config map %s: %s", catsrc.Spec.ConfigMap, err)
+			err = fmt.Errorf("failed to get catalog config map %s: %s", catsrc.Spec.ConfigMap, err)
+			out.Status.SetCondition(v1alpha1.CatalogSourceConditionFailed(v1alpha1.CatalogSourceAvailable, v1alpha1.CatalogSourceReasonConfigMapNotFound, err))
+			if _, updateErr := o.client.OperatorsV1alpha1().CatalogSources(out.GetNamespace()).UpdateStatus(out); updateErr != nil {
+				return updateErr
+			}
+			return err
 		}
 
 		if wasOwned := ownerutil.EnsureOwner(configMap, catsrc); !wasOwned {
@@ -381,16 +386,22 @@ func (o *Operator) syncCatalogSources(obj interface{}) (syncError error) {
 
 			return nil
 		}
-		
+
 		logger.Debug("catsrc configmap state good, checking registry pod")
 	}
 
 	reconciler := o.reconciler.ReconcilerForSource(catsrc)
 	if reconciler == nil {
-		// TODO: Add failure status on catalogsource and remove from sources
-		return fmt.Errorf("no reconciler for source type %s", catsrc.Spec.SourceType)
+		err := fmt.Errorf("no reconciler for source type %s", catsrc.Spec.SourceType)
+		// TODO(alecmerdler): Add failure status on catalogsource
+		out.Status.SetCondition(v1alpha1.CatalogSourceConditionFailed(v1alpha1.CatalogSourceAvailable, v1alpha1.CatalogSourceReasonInvalidType, err))
+		out.Status.LastSync = timeNow()
+		logger.Debug("updating catsrc status")
+		if _, updateErr := o.client.OperatorsV1alpha1().CatalogSources(out.GetNamespace()).UpdateStatus(out); updateErr != nil {
+			return updateErr
+		}
+		return err
 	}
-
 
 	// if registry pod hasn't been created or hasn't been updated since the last configmap update, recreate it
 	if catsrc.Status.RegistryServiceStatus == nil || catsrc.Status.RegistryServiceStatus.CreatedAt.Before(&catsrc.Status.LastSync) {
@@ -538,7 +549,7 @@ func (o *Operator) syncResolvingNamespace(obj interface{}) error {
 
 	subs, err := o.lister.OperatorsV1alpha1().SubscriptionLister().Subscriptions(namespace).List(labels.Everything())
 	if err != nil {
-		logger.WithError(err).Debug("couldn't list subscriptions")	
+		logger.WithError(err).Debug("couldn't list subscriptions")
 		return err
 	}
 
@@ -745,7 +756,7 @@ func (o *Operator) ensureSubscriptionCSVState(logger *logrus.Entry, sub *v1alpha
 		} else {
 			out.Status.State = v1alpha1.SubscriptionStateAtLatest
 		}
-		
+
 		out.Status.InstalledCSV = sub.Status.CurrentCSV
 	}
 

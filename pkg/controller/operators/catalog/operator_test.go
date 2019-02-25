@@ -230,21 +230,16 @@ func TestSyncCatalogSources(t *testing.T) {
 					UID:       types.UID("catalog-uid"),
 				},
 				Spec: v1alpha1.CatalogSourceSpec{
-					ConfigMap:  "cool-configmap",
 					SourceType: "nope",
 				},
 			},
-			configMap: &corev1.ConfigMap{
-				ObjectMeta: metav1.ObjectMeta{
-					Name:            "cool-configmap",
-					Namespace:       "cool-namespace",
-					UID:             types.UID("configmap-uid"),
-					ResourceVersion: "resource-version",
+			configMap: &corev1.ConfigMap{},
+			expectedStatus: &v1alpha1.CatalogSourceStatus{
+				Conditions: []v1alpha1.CatalogSourceCondition{
+					{Type: v1alpha1.CatalogSourceAvailable, Status: corev1.ConditionFalse, Message: "no reconciler for source type nope"},
 				},
-				Data: fakeConfigMapData(),
 			},
-			expectedStatus: nil,
-			expectedError:  fmt.Errorf("no reconciler for source type nope"),
+			expectedError: fmt.Errorf("no reconciler for source type nope"),
 		},
 		{
 			testName:          "CatalogSourceWithBackingConfigMap",
@@ -341,6 +336,35 @@ func TestSyncCatalogSources(t *testing.T) {
 			expectedStatus: nil,
 			expectedError:  errors.New("failed to get catalog config map cool-configmap: configmap \"cool-configmap\" not found"),
 		},
+		// TODO(alecmerdler): CatalogSource tests for RegistryServiceStatus
+		{
+			testName:          "RegistryServiceStatus/NoImageOrAddress",
+			operatorNamespace: "cool-namespace",
+			catalogSource: &v1alpha1.CatalogSource{
+				ObjectMeta: metav1.ObjectMeta{
+					Name:      "cool-catalog",
+					Namespace: "cool-namespace",
+					UID:       types.UID("catalog-uid"),
+				},
+				Spec: v1alpha1.CatalogSourceSpec{
+					SourceType: v1alpha1.SourceTypeGrpc,
+				},
+			},
+			expectedStatus: &v1alpha1.CatalogSourceStatus{
+				// RegistryServiceStatus: &v1alpha1.RegistryServiceStatus{
+				// 	Protocol:         nil,
+				// 	ServiceName:      nil,
+				// 	ServiceNamespace: nil,
+				// 	Port:             nil,
+				// 	CreatedAt:        nil,
+				// },
+				Conditions: []v1alpha1.CatalogSourceCondition{
+					{Type: v1alpha1.CatalogSourceAvailable, Status: corev1.ConditionFalse, Message: "no reconciler for source type grpc"},
+				},
+			},
+			expectedError: fmt.Errorf("no reconciler for source type grpc"),
+			configMap:     &corev1.ConfigMap{},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.testName, func(t *testing.T) {
@@ -369,17 +393,32 @@ func TestSyncCatalogSources(t *testing.T) {
 
 			if tt.expectedStatus != nil {
 				require.NotEmpty(t, updated.Status)
-				require.Equal(t, *tt.expectedStatus.ConfigMapResource, *updated.Status.ConfigMapResource)
 
-				configMap, err := op.OpClient.KubernetesInterface().CoreV1().ConfigMaps(tt.catalogSource.GetNamespace()).Get(tt.catalogSource.Spec.ConfigMap, metav1.GetOptions{})
-				require.NoError(t, err)
-				require.True(t, ownerutil.EnsureOwner(configMap, updated))
+				for _, expectedCondition := range tt.expectedStatus.Conditions {
+					found := false
+					for _, condition := range updated.Status.Conditions {
+						if condition.Type == expectedCondition.Type {
+							require.Equal(t, expectedCondition.Status, condition.Status)
+							require.Equal(t, expectedCondition.Message, condition.Message)
+							found = true
+						}
+					}
+					require.True(t, found, "Missing expected condition: "+string(expectedCondition.Type))
+				}
+
+				if tt.catalogSource.Spec.SourceType == v1alpha1.SourceTypeConfigmap {
+					require.Equal(t, *tt.expectedStatus.ConfigMapResource, *updated.Status.ConfigMapResource)
+
+					configMap, err := op.OpClient.KubernetesInterface().CoreV1().ConfigMaps(tt.catalogSource.GetNamespace()).Get(tt.catalogSource.Spec.ConfigMap, metav1.GetOptions{})
+					require.NoError(t, err)
+					require.True(t, ownerutil.EnsureOwner(configMap, updated))
+				} else if tt.catalogSource.Spec.SourceType == v1alpha1.SourceTypeGrpc {
+					// TODO(alecmerdler): Validate `status.registryService`
+				}
 			}
 		})
 	}
 }
-
-// TODO: CatalogSource tests for RegistryServiceStatus
 
 func TestCompetingCRDOwnersExist(t *testing.T) {
 
