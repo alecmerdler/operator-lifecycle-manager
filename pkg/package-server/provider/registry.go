@@ -9,11 +9,13 @@ import (
 	"time"
 
 	"github.com/operator-framework/operator-registry/pkg/api"
+	"github.com/pborman/uuid"
 	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/connectivity"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/labels"
+	"k8s.io/apimachinery/pkg/types"
 	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
 	"k8s.io/client-go/tools/cache"
 	"k8s.io/client-go/util/workqueue"
@@ -291,6 +293,7 @@ func toPackageManifest(pkg *api.Package, client registryClient) (*operators.Pack
 		ObjectMeta: metav1.ObjectMeta{
 			Name:              pkg.GetName(),
 			Namespace:         catsrc.GetNamespace(),
+			UID:               types.UID(uuid.NewRandom().String()),
 			Labels:            catsrc.GetLabels(),
 			CreationTimestamp: catsrc.GetCreationTimestamp(),
 		},

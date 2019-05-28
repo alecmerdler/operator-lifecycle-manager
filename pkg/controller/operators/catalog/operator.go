@@ -544,6 +544,7 @@ func (o *Operator) syncCatalogSources(obj interface{}) (syncError error) {
 
 	// record that we've done work here onto the status
 	out.Status.LastSync = timeNow()
+	// TODO(alecmerdler): Status should contain if this is a "global" CatalogSource (will resolve in any namespace)
 	if _, err := o.client.OperatorsV1alpha1().CatalogSources(out.GetNamespace()).UpdateStatus(out); err != nil {
 		return err
 	}
@@ -711,6 +712,7 @@ func (o *Operator) ensureResolverSources(logger *logrus.Entry, namespace string)
 				continue
 			}
 			// only resolve in namespace local + global catalogs
+			// FIXME(alecmedler): Label CatalogSource
 			if k.Namespace == namespace || k.Namespace == o.namespace {
 				resolverSources[k] = ref.Client
 			}
