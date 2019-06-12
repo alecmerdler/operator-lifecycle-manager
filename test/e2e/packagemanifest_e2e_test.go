@@ -5,6 +5,8 @@ import (
 	"time"
 
 	"github.com/blang/semver"
+	"github.com/onsi/ginkgo"
+	"github.com/onsi/gomega"
 	"github.com/stretchr/testify/require"
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions"
 	"k8s.io/apimachinery/pkg/api/errors"
@@ -44,6 +46,55 @@ func fetchPackageManifest(t *testing.T, pmc pmversioned.Interface, namespace, na
 	return fetched, err
 }
 
+var Describe = ginkgo.Describe
+var When = ginkgo.Context
+var It = ginkgo.It
+var By = ginkgo.By
+
+func TestPackageManifest(t *testing.T) {
+	gomega.RegisterFailHandler(ginkgo.Fail)
+	ginkgo.RunSpecs(t, "PackageManifest Suite")
+}
+
+var _ = Describe("PackageManifest", func() {
+	It("should be available as a cluster API", func() {
+
+	})
+
+	Describe("global CatalogSources", func() {
+
+	})
+
+	Describe("local CatalogSources", func() {
+
+	})
+
+	It("should return items from global CatalogSources", func() {
+		When("fetching from global catalog namespace", func() {
+
+		})
+
+		When("fetching from a different namespace", func() {
+
+		})
+
+		When("fetching from all-namespaces", func() {
+
+		})
+	})
+
+	It("should return items from local CatalogSource", func() {
+		When("fetching from all-namespaces", func() {
+
+		})
+
+		When("fetching from local CatalogSource namespace", func() {
+
+		})
+	})
+})
+
+// TODO(alecmerdler): Rewrite using Ginkgo test framework
 func TestPackageManifestLoading(t *testing.T) {
 	defer cleaner.NotifyTestComplete(t, true)
 
