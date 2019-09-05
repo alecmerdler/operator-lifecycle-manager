@@ -1042,7 +1042,7 @@ func (o *Operator) syncInstallPlans(obj interface{}) (syncError error) {
 				syncError = fmt.Errorf("failed to attach attenuated ServiceAccount to status - %v", updateErr)
 				return
 			}
-						
+
 			logger.WithField("attenuated-sa", reference.Name).Info("successfully attached attenuated ServiceAccount to status")
 			return
 		}
@@ -1251,6 +1251,7 @@ func (o *Operator) ExecutePlan(plan *v1alpha1.InstallPlan) error {
 
 				// TODO: check that names are accepted
 				// Attempt to create the CRD.
+				// FIXME(alecmerdler): Add `type: object` to OpenAPI validation to ensure schemas are published
 				_, err = o.opClient.ApiextensionsV1beta1Interface().ApiextensionsV1beta1().CustomResourceDefinitions().Create(&crd)
 				if k8serrors.IsAlreadyExists(err) {
 					currentCRD, _ := o.lister.APIExtensionsV1beta1().CustomResourceDefinitionLister().Get(crd.GetName())
@@ -1605,4 +1606,3 @@ func getCSVNameSet(plan *v1alpha1.InstallPlan) map[string]struct{} {
 
 	return csvNameSet
 }
-
